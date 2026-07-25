@@ -746,3 +746,90 @@ document.querySelectorAll('.why-us-card').forEach(card => {
         card.style.transform = '';
     });
 });
+
+// ===== SCROLL PROGRESS BAR =====
+const scrollProgress = document.getElementById('scroll-progress');
+
+window.addEventListener('scroll', () => {
+    // Calculate scroll percentage
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    
+    if (scrollProgress) {
+        scrollProgress.style.width = scrolled + '%';
+    }
+});
+
+// ===== CUSTOM CURSOR =====
+const cursorDot = document.getElementById('cursor-dot');
+const cursorOutline = document.getElementById('cursor-outline');
+
+if (cursorDot && cursorOutline) {
+    // Only activate if not on touch device (using CSS media query for display:none on mobile, 
+    // but good to also check here to avoid unnecessary JS events)
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    
+    if (!isTouchDevice) {
+        let mouseX = 0;
+        let mouseY = 0;
+        let outlineX = 0;
+        let outlineY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Dot follows instantly
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+        });
+
+        // Outline follows with slight delay using requestAnimationFrame for smoothness
+        const animateCursor = () => {
+            let distX = mouseX - outlineX;
+            let distY = mouseY - outlineY;
+            
+            outlineX = outlineX + (distX * 0.15); // Adjust 0.15 for follow speed
+            outlineY = outlineY + (distY * 0.15);
+            
+            cursorOutline.style.left = `${outlineX}px`;
+            cursorOutline.style.top = `${outlineY}px`;
+            
+            requestAnimationFrame(animateCursor);
+        };
+        
+        animateCursor();
+    }
+}
+
+// ===== MAGNETIC BUTTONS =====
+const magneticBtns = document.querySelectorAll('.magnetic-btn');
+
+magneticBtns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+        const position = btn.getBoundingClientRect();
+        const x = e.pageX - position.left - position.width / 2;
+        const y = e.pageY - position.top - position.height / 2;
+        
+        // Adjust the divider (3) to change the magnetic strength
+        btn.style.transform = `translate(${x / 3}px, ${y / 3}px)`;
+    });
+    
+    btn.addEventListener('mouseout', () => {
+        btn.style.transform = 'translate(0px, 0px)';
+    });
+});
+
+// ===== NEWSLETTER SUBMIT =====
+const newsletterForm = document.getElementById('newsletter-form');
+if (newsletterForm) {
+    newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = newsletterForm.querySelector('input');
+        if (input.value) {
+            showToast('success', `Terima kasih! Email ${input.value} berhasil didaftarkan.`);
+            input.value = '';
+        }
+    });
+}

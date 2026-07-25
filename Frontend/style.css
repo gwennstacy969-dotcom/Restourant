@@ -2523,3 +2523,426 @@ body.dark-mode .schedule-badge.open {
         padding: 0 1.25rem 1rem;
     }
 }
+
+/* ===== CUSTOM CURSOR ===== */
+@media (hover: hover) and (pointer: fine) {
+    body {
+        cursor: none;
+    }
+    
+    .cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        background-color: var(--accent);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 10000;
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    .cursor-outline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(232, 69, 69, 0.5);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 9999;
+        transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+        /* Using transform in JS for smooth following */
+    }
+    
+    /* Hover state for links and buttons */
+    a:hover ~ .cursor-dot, 
+    button:hover ~ .cursor-dot, 
+    .interactive:hover ~ .cursor-dot,
+    .cursor-hover .cursor-dot {
+        width: 12px;
+        height: 12px;
+        background-color: transparent;
+    }
+    
+    a:hover ~ .cursor-outline, 
+    button:hover ~ .cursor-outline, 
+    .interactive:hover ~ .cursor-outline,
+    .cursor-hover .cursor-outline {
+        width: 60px;
+        height: 60px;
+        background-color: rgba(232, 69, 69, 0.1);
+        border-color: var(--accent);
+    }
+}
+
+/* ===== SCROLL PROGRESS BAR ===== */
+.scroll-progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: transparent;
+    z-index: 10001;
+    pointer-events: none;
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), #ff8a5c, #ffd166);
+    box-shadow: 0 0 10px var(--accent-glow);
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+/* ===== KLIEN KAMI (CLIENTS MARQUEE) ===== */
+.clients-section {
+    background: var(--bg-primary);
+    padding: 2rem 0 4rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.clients-title {
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 2rem;
+}
+
+.clients-marquee {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.clients-marquee::before,
+.clients-marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.clients-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-primary) 0%, transparent 100%);
+}
+
+.clients-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-primary) 0%, transparent 100%);
+}
+
+.clients-track {
+    display: flex;
+    width: calc(250px * 16); /* 8 logos * 2 */
+    animation: clientsScroll 35s linear infinite;
+}
+
+.clients-track:hover {
+    animation-play-state: paused;
+}
+
+.client-logo {
+    width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    transition: var(--transition-fast);
+    cursor: default;
+}
+
+.client-logo:hover {
+    opacity: 1;
+    color: var(--text-primary);
+    transform: scale(1.05);
+}
+
+@keyframes clientsScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-250px * 8)); }
+}
+
+/* ===== CARA PESAN (HOW IT WORKS) ===== */
+.how-it-works-section {
+    background: var(--bg-primary);
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    margin-top: 3rem;
+}
+
+.step-card {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    padding: 0 1rem;
+    z-index: 2;
+}
+
+.step-number {
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--accent-light);
+    opacity: 0.5;
+    z-index: -1;
+    line-height: 1;
+    transition: var(--transition);
+}
+
+.step-card:hover .step-number {
+    color: var(--accent);
+    opacity: 0.2;
+    transform: translateY(-10px);
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--surface);
+    border: 2px solid var(--border-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-bounce);
+    position: relative;
+}
+
+.step-icon::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px dashed transparent;
+    transition: var(--transition);
+}
+
+.step-card:hover .step-icon {
+    border-color: var(--accent);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: var(--shadow-md), 0 0 20px var(--accent-glow);
+}
+
+.step-card:hover .step-icon::after {
+    border-color: var(--accent);
+    transform: rotate(45deg);
+}
+
+.step-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.step-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.step-connector {
+    flex: 0 0 10%;
+    height: 2px;
+    background: var(--border-light);
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.step-connector::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.5s ease;
+}
+
+/* Hovering a step fills the connector before it */
+.step-card:hover ~ .step-connector::after {
+    width: 0%; /* reset */
+}
+/* This is a bit tricky with pure CSS, usually done with JS. 
+   We'll just add a dashed animated border for now */
+.step-connector {
+    background: transparent;
+    border-top: 2px dashed var(--border);
+}
+
+/* ===== NEWSLETTER SECTION ===== */
+.newsletter-section {
+    padding: 2rem 0 6rem;
+    background: var(--bg-primary);
+}
+
+.newsletter-box {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.newsletter-bg-glow {
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.newsletter-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.newsletter-content h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+}
+
+.newsletter-content p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+}
+
+.newsletter-form {
+    width: 100%;
+}
+
+.input-glass-wrap {
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    padding: 0.5rem;
+    transition: var(--transition-fast);
+}
+
+.input-glass-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-light);
+    background: var(--surface);
+}
+
+.input-icon {
+    padding: 0 1rem;
+    font-size: 1.25rem;
+    color: var(--text-muted);
+}
+
+.input-glass {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-family: var(--font);
+    outline: none;
+}
+
+.input-glass-wrap .btn-primary {
+    padding: 0.75rem 1.5rem;
+}
+
+/* ===== RESPONSIVE PHASE 2 ===== */
+@media (max-width: 768px) {
+    .steps-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+    
+    .step-connector {
+        display: none;
+    }
+    
+    .step-card {
+        padding: 0;
+        max-width: 350px;
+    }
+
+    .input-glass-wrap {
+        flex-direction: column;
+        border-radius: var(--radius-lg);
+        padding: 1rem;
+        background: transparent;
+        border: none;
+        gap: 1rem;
+    }
+
+    .input-glass-wrap:focus-within {
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .input-icon {
+        display: none;
+    }
+
+    .input-glass {
+        width: 100%;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        text-align: center;
+    }
+    
+    .input-glass:focus {
+        border-color: var(--accent);
+    }
+
+    .input-glass-wrap .btn-primary {
+        width: 100%;
+        border-radius: var(--radius-md);
+    }
+    
+    /* Disable custom cursor on mobile */
+    .cursor-dot, .cursor-outline {
+        display: none !important;
+    }
+}
