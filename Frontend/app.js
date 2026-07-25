@@ -833,3 +833,93 @@ if (newsletterForm) {
         }
     });
 }
+
+// ===== PHASE 3 ADVANCED JAVASCRIPT =====
+
+// 1. Theme Toggle in Navbar
+const navThemeToggle = document.getElementById('nav-theme-toggle');
+if (navThemeToggle) {
+    navThemeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        // Save preference (optional, but good practice)
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+    
+    // Check local storage on load
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+}
+
+// 2. Menu Filtering System
+const filterBtns = document.querySelectorAll('.filter-btn');
+
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from sibling buttons
+        const container = btn.closest('.menu-filter-container');
+        container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        
+        // Add active class to clicked button
+        btn.classList.add('active');
+        
+        const filterValue = btn.getAttribute('data-filter');
+        const targetGridId = btn.getAttribute('data-target');
+        
+        // If data-target is provided, filter that specific grid, otherwise filter all menu grids
+        let cards;
+        if (targetGridId) {
+            cards = document.querySelectorAll(`#${targetGridId} .menu-card`);
+        } else {
+            // Fallback for Angkringan (since we didn't add data-target explicitly to angkringan grid in previous step, but let's select based on parent)
+            const parentSection = btn.closest('section');
+            cards = parentSection.querySelectorAll('.menu-card');
+        }
+        
+        cards.forEach(card => {
+            if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                card.classList.remove('hidden-filter');
+                // Small delay to allow display:block to render before opacity transition
+                setTimeout(() => {
+                    card.style.display = 'block';
+                }, 300);
+            } else {
+                card.classList.add('hidden-filter');
+                // Hide after transition
+                setTimeout(() => {
+                    if (card.classList.contains('hidden-filter')) {
+                        card.style.display = 'none';
+                    }
+                }, 400); // matches CSS transition duration
+            }
+        });
+    });
+});
+
+// 3. Advanced Text Reveal (Split Text)
+const splitTextElements = document.querySelectorAll('.split-text');
+
+splitTextElements.forEach(el => {
+    const text = el.innerText;
+    el.innerHTML = '';
+    
+    // Split text into characters and wrap in spans
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const span = document.createElement('span');
+        span.className = 'char';
+        // Preserve spaces
+        if (char === ' ') {
+            span.innerHTML = '&nbsp;';
+        } else {
+            span.innerText = char;
+        }
+        // Stagger the transition delay
+        span.style.transitionDelay = `${i * 0.03}s`;
+        el.appendChild(span);
+    }
+    
+    // Add to intersection observer if not already there
+    revealObserver.observe(el);
+});
