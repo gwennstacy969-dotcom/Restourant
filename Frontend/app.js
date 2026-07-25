@@ -844,11 +844,11 @@ filterBtns.forEach(btn => {
         // If data-target is provided, filter that specific grid, otherwise filter all menu grids
         let cards;
         if (targetGridId) {
-            cards = document.querySelectorAll(`#${targetGridId} .menu-card`);
+            cards = document.querySelectorAll(`#${targetGridId} .menu-card, #${targetGridId} .pricing-card`);
         } else {
-            // Fallback for Angkringan (since we didn't add data-target explicitly to angkringan grid in previous step, but let's select based on parent)
+            // Fallback for Angkringan
             const parentSection = btn.closest('section');
-            cards = parentSection.querySelectorAll('.menu-card');
+            cards = parentSection.querySelectorAll('.menu-card, .pricing-card');
         }
         
         cards.forEach(card => {
