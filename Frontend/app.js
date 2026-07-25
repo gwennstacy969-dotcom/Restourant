@@ -649,3 +649,100 @@ document.querySelectorAll('.pricing-card').forEach(card => {
 // ===== INITIALIZE =====
 console.log('%c🍽️ Catering 2W', 'font-size: 24px; font-weight: bold; color: #e84545;');
 console.log('%cWebsite Modern by Catering 2W', 'font-size: 12px; color: #888;');
+
+// ===== GALLERY LIGHTBOX =====
+const galleryLightbox = document.getElementById('gallery-lightbox');
+const lightboxVisual = document.getElementById('lightbox-visual');
+const lightboxCaption = document.getElementById('lightbox-caption');
+const galleryItems = document.querySelectorAll('.gallery-item');
+
+galleryItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const visual = item.querySelector('.gallery-visual');
+        const emoji = item.querySelector('.gallery-emoji').textContent;
+        const gradient = visual.style.getPropertyValue('--gradient');
+        const caption = item.dataset.caption;
+
+        lightboxVisual.style.background = gradient;
+        lightboxVisual.innerHTML = `<span class="gallery-emoji">${emoji}</span>`;
+        lightboxCaption.textContent = caption;
+
+        galleryLightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
+});
+
+// Close lightbox
+const lightboxClose = document.querySelector('.lightbox-close');
+if (lightboxClose) {
+    lightboxClose.addEventListener('click', closeLightbox);
+}
+
+galleryLightbox.addEventListener('click', (e) => {
+    if (e.target === galleryLightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !galleryLightbox.classList.contains('hidden')) {
+        closeLightbox();
+    }
+});
+
+function closeLightbox() {
+    galleryLightbox.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+// ===== FAQ ACCORDION =====
+const faqItems = document.querySelectorAll('.faq-item');
+
+faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+
+        // Close all others
+        faqItems.forEach(other => {
+            other.classList.remove('active');
+        });
+
+        // Toggle current
+        if (!isActive) {
+            item.classList.add('active');
+        }
+    });
+});
+
+// ===== RE-OBSERVE NEW REVEAL ELEMENTS =====
+// New sections added dynamically need to be observed
+document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    revealObserver.observe(el);
+});
+
+// ===== UPDATED SEARCH DATA (append new entries) =====
+searchData.push(
+    { text: '🖼️ Galeri Makanan', category: 'Galeri', action: 'scroll', target: '#gallery' },
+    { text: '❓ FAQ — Tanya Jawab', category: 'Info', action: 'scroll', target: '#faq' },
+    { text: '🗺️ Lokasi & Jam Buka', category: 'Info', action: 'scroll', target: '#lokasi' },
+    { text: '🎉 Promo Diskon 10%', category: 'Promo', action: 'scroll', target: '#promo' },
+    { text: '🏆 Kenapa Pilih Kami', category: 'Info', action: 'scroll', target: '#why-us' }
+);
+
+// ===== WHY-US CARD TILT EFFECT =====
+document.querySelectorAll('.why-us-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 40;
+        const rotateY = (centerX - x) / 40;
+
+        card.style.transform = `translateY(-8px) perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+    });
+});
