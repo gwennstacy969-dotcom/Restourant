@@ -5,11 +5,11 @@
 const API_BASE = 'http://localhost:3000/api';
 
 // ===== LOADER =====
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loader');
     setTimeout(() => {
-        loader.classList.add('hidden');
-    }, 800);
+        if (loader) loader.classList.add('hidden');
+    }, 500);
 });
 
 // ===== DARK MODE TOGGLE =====
@@ -34,19 +34,23 @@ window.addEventListener('scroll', () => {
     }
 
     // Back to top visibility
-    if (scrollY > 500) {
-        backToTop.classList.add('visible');
-    } else {
-        backToTop.classList.remove('visible');
+    if (backToTop) {
+        if (scrollY > 500) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
     }
 
     // Active nav link based on scroll
     updateActiveNav();
 });
 
-backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+if (backToTop) {
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
 
 // ===== ACTIVE NAV LINK TRACKING =====
 function updateActiveNav() {
@@ -103,74 +107,7 @@ mainNav.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', closeMenu);
 });
 
-// ===== TYPING ANIMATION =====
-const typedTextEl = document.getElementById('typed-text');
-const phrases = [
-    'Nggak Pake Ribet!',
-    'Harga Bersahabat!',
-    'Rasa Premium!',
-    'Selalu Fresh!',
-    'Bisa Custom!'
-];
-let phraseIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-let typeTimeout;
-
-function typeEffect() {
-    const currentPhrase = phrases[phraseIndex];
-
-    if (isDeleting) {
-        typedTextEl.textContent = currentPhrase.substring(0, charIndex - 1);
-        charIndex--;
-    } else {
-        typedTextEl.textContent = currentPhrase.substring(0, charIndex + 1);
-        charIndex++;
-    }
-
-    let speed = isDeleting ? 40 : 80;
-
-    if (!isDeleting && charIndex === currentPhrase.length) {
-        speed = 2000; // Pause at end
-        isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length;
-        speed = 300;
-    }
-
-    typeTimeout = setTimeout(typeEffect, speed);
-}
-
-typeEffect();
-
-// ===== HERO FLOATING PARTICLES =====
-const particlesContainer = document.getElementById('hero-particles');
-const foodEmojis = ['🍚', '🍙', '🍗', '🍢', '🥟', '☕', '🍖', '🍲', '🌶️', '🍳', '🍤', '🍌'];
-
-function createParticle() {
-    const particle = document.createElement('span');
-    particle.className = 'food-particle';
-    particle.textContent = foodEmojis[Math.floor(Math.random() * foodEmojis.length)];
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
-    particle.style.animationDuration = (Math.random() * 10 + 12) + 's';
-    particle.style.animationDelay = (Math.random() * 5) + 's';
-    particlesContainer.appendChild(particle);
-
-    // Clean up after animation
-    setTimeout(() => {
-        if (particle.parentNode) particle.remove();
-    }, 22000);
-}
-
-// Create initial batch
-for (let i = 0; i < 12; i++) {
-    setTimeout(createParticle, i * 800);
-}
-
-// Keep creating particles
-setInterval(createParticle, 3000);
+// Old Typing Animation and Hero Particles were removed in Phase 3
 
 // ===== SCROLL REVEAL (Intersection Observer) =====
 const revealElements = document.querySelectorAll('.reveal');
