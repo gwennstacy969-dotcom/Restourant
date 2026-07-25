@@ -13,17 +13,11 @@ window.addEventListener('load', () => {
 });
 
 // ===== DARK MODE TOGGLE =====
-const themeToggleBtn = document.getElementById('theme-toggle');
 const body = document.body;
 
 if (localStorage.getItem('theme') === 'dark') {
     body.classList.add('dark-mode');
 }
-
-themeToggleBtn.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-});
 
 // ===== NAVBAR SCROLL EFFECT =====
 const navbar = document.getElementById('navbar');
@@ -236,29 +230,7 @@ function animateCounter(el, target) {
     requestAnimationFrame(update);
 }
 
-// ===== MENU FILTER =====
-const filterBtns = document.querySelectorAll('.filter-btn');
-const menuCards = document.querySelectorAll('.menu-card');
-
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Update active button
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const filter = btn.dataset.filter;
-
-        menuCards.forEach(card => {
-            if (filter === 'all' || card.dataset.category === filter) {
-                card.classList.remove('hide');
-                card.classList.add('show');
-            } else {
-                card.classList.add('hide');
-                card.classList.remove('show');
-            }
-        });
-    });
-});
+// Old menu filter logic was removed here in favor of Phase 3 filter.
 
 // ===== TESTIMONIAL CAROUSEL =====
 const carouselTrack = document.getElementById('carousel-track');
@@ -592,7 +564,9 @@ function updateSelected(items) {
 }
 
 // Open with button
-searchBtn.addEventListener('click', togglePalette);
+if (searchBtn) {
+    searchBtn.addEventListener('click', togglePalette);
+}
 
 // Open with Ctrl+K
 document.addEventListener('keydown', (e) => {
