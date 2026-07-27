@@ -769,8 +769,10 @@ const filterBtns = document.querySelectorAll('.filter-btn');
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         // Remove active class from sibling buttons
-        const container = btn.closest('.menu-filter-container');
-        container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        const container = btn.closest('.menu-filter-container, .filter-bar');
+        if (container) {
+            container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        }
         
         // Add active class to clicked button
         btn.classList.add('active');
