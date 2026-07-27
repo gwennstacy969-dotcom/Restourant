@@ -185,13 +185,47 @@ header {
     background: var(--surface-glass);
     backdrop-filter: blur(20px) saturate(1.8);
     -webkit-backdrop-filter: blur(20px) saturate(1.8);
-    border: 1px solid var(--border-light);
     border-radius: var(--radius-xl);
     margin-top: 0.75rem;
     margin-left: clamp(0.5rem, 2vw, 1.5rem);
     margin-right: clamp(0.5rem, 2vw, 1.5rem);
     box-shadow: var(--shadow-md);
     transition: var(--transition);
+    position: relative;
+}
+
+@keyframes rgbRunningEdge {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.nav-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2.5px;
+    background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff00ff, #ff0000);
+    background-size: 200% 100%;
+    animation: rgbRunningEdge 8s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.nav-inner::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff00ff, #ff0000);
+    background-size: 200% 100%;
+    animation: rgbRunningEdge 8s linear infinite;
+    filter: blur(15px);
+    opacity: 0.25;
+    z-index: -1;
+    pointer-events: none;
 }
 
 header.scrolled .nav-inner {
