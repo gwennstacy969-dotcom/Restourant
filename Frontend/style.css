@@ -755,7 +755,7 @@ section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1.5rem;
-    align-items: start;
+    align-items: stretch;
 }
 
 .card {
@@ -766,6 +766,8 @@ section {
     transition: var(--transition);
     overflow: hidden;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
@@ -807,6 +809,7 @@ section {
 
 .pricing-card .card-body {
     padding: 1.5rem 1.75rem;
+    flex-grow: 1;
 }
 
 .menu-list li {
@@ -1030,6 +1033,7 @@ section {
     font-size: 0.9rem;
     font-weight: 700;
     color: var(--accent);
+    margin-top: auto;
 }
 
 /* Menu filter animation */
