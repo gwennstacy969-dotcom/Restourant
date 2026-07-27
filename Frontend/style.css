@@ -1030,6 +1030,53 @@ section {
     background: var(--accent-light);
 }
 
+.clickable-tag {
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.clickable-tag:hover {
+    background: var(--accent) !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.menu-detail-content {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+    padding-bottom: 0;
+}
+
+.menu-modal-info {
+    padding: 1.5rem;
+}
+
+.menu-modal-info h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.menu-modal-price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.menu-modal-info p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
 .menu-price-range {
     font-size: 0.9rem;
     font-weight: 700;

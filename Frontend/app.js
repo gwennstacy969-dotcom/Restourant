@@ -836,3 +836,51 @@ splitTextElements.forEach(el => {
     // Add to intersection observer if not already there
     revealObserver.observe(el);
 });
+
+// ===== MENU ITEM MODAL =====
+const menuItemModal = document.getElementById('menu-item-modal');
+const menuModalClose = document.getElementById('menu-modal-close');
+const menuModalVisual = document.getElementById('menu-modal-visual');
+const menuModalTitle = document.getElementById('menu-modal-title');
+const menuModalDesc = document.getElementById('menu-modal-desc');
+const menuModalPrice = document.getElementById('menu-modal-price');
+
+document.querySelectorAll('.clickable-tag').forEach(tag => {
+    tag.addEventListener('click', (e) => {
+        const name = tag.getAttribute('data-name');
+        const desc = tag.getAttribute('data-desc');
+        const price = tag.getAttribute('data-price');
+        const emoji = tag.getAttribute('data-emoji');
+        const gradient = tag.getAttribute('data-gradient');
+
+        if (menuModalTitle) menuModalTitle.textContent = name;
+        if (menuModalDesc) menuModalDesc.textContent = desc;
+        if (menuModalPrice) menuModalPrice.textContent = price;
+        
+        if (menuModalVisual) {
+            menuModalVisual.style.background = gradient;
+            menuModalVisual.innerHTML = `<span class="gallery-emoji" style="font-size: 4rem;">${emoji}</span>`;
+        }
+
+        if (menuItemModal) {
+            menuItemModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    });
+});
+
+if (menuModalClose) {
+    menuModalClose.addEventListener('click', () => {
+        menuItemModal.classList.add('hidden');
+        document.body.style.overflow = '';
+    });
+}
+
+if (menuItemModal) {
+    menuItemModal.addEventListener('click', (e) => {
+        if (e.target === menuItemModal) {
+            menuItemModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    });
+}
