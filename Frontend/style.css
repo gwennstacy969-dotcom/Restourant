@@ -360,6 +360,26 @@ body.dark-mode .theme-icon-dark { display: none; }
     box-shadow: 0 8px 24px var(--accent-glow);
 }
 
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    animation: buttonShine 4.5s infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes buttonShine {
+    0% { left: -100%; }
+    15% { left: 200%; }
+    100% { left: 200%; }
+}
+
 .btn-primary:active {
     transform: translateY(0);
 }

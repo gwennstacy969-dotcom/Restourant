@@ -386,6 +386,7 @@ orderForm.addEventListener('submit', async (e) => {
         const result = await response.json();
 
         if (result.success) {
+            if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, zIndex: 10001 });
             showToast('success', `Pesanan berhasil dibuat! ID: #${result.data.id}. Kami akan menghubungi Anda segera.`);
             orderForm.reset();
             orderTotal.style.display = 'none';
@@ -399,6 +400,7 @@ orderForm.addEventListener('submit', async (e) => {
         
         showToast('info', 'Server belum aktif. Mengarahkan ke WhatsApp...');
         closeOrderModal();
+        if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 60, origin: { y: 0.6 }, zIndex: 10001 });
         
         setTimeout(() => {
             window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(waMessage)}`, '_blank');
