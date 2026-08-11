@@ -48,7 +48,7 @@
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
-                <a href="#order" class="nav-link nav-cta">Pesan Sekarang</a>
+                <a href="javascript:void(0)" class="nav-link nav-cta open-order-btn">Pesan Sekarang</a>
             </nav>
             <button class="menu-btn" aria-label="Menu" id="mobile-menu-btn">
                 <span></span>
@@ -503,8 +503,84 @@
                     <h3 id="menu-modal-title">Nama Menu</h3>
                     <div class="menu-modal-price" id="menu-modal-price">Rp0</div>
                     <p id="menu-modal-desc">Deskripsi menu</p>
-                    <button class="btn-primary btn-full" onclick="document.getElementById('menu-item-modal').classList.add('hidden'); document.body.style.overflow = ''; document.getElementById('order').scrollIntoView({behavior: 'smooth'})">Pesan Sekarang</button>
+                    <button class="btn-primary btn-full open-order-btn" id="menu-modal-order-btn">Pesan Sekarang</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- ===== ORDER MODAL (POP-UP) ===== -->
+        <div id="order-modal" class="modal-overlay hidden">
+            <div class="modal-content order-modal-content">
+                <button class="modal-close" aria-label="Tutup" id="order-modal-close">&times;</button>
+                <div class="order-modal-header">
+                    <span class="section-tag">Pesan Mudah</span>
+                    <h2>Form Pemesanan Catering 2W</h2>
+                    <p>Isi rincian di bawah ini untuk memesan. Kami siap melayani acara Anda.</p>
+                </div>
+                <form id="order-form" class="order-form">
+                    <div class="form-group">
+                        <label for="customer-name">Nama Lengkap *</label>
+                        <input type="text" id="customer-name" name="customer_name" placeholder="Masukkan nama Anda" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer-phone">No. WhatsApp *</label>
+                            <input type="tel" id="customer-phone" name="customer_phone" placeholder="08xxxxxxxxxx" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-email">Email</label>
+                            <input type="email" id="customer-email" name="customer_email" placeholder="email@contoh.com">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="order-type">Jenis Pesanan</label>
+                            <select id="order-type" name="order_type">
+                                <option value="nasi_box">Nasi Box</option>
+                                <option value="angkringan">Menu Angkringan</option>
+                                <option value="langganan">Langganan Harian</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="order-package">Pilih Paket</label>
+                            <select id="order-package" name="package_id">
+                                <option value="">— Pilih Paket —</option>
+                                <option value="1">Paket Hemat (Rp10.000)</option>
+                                <option value="2">Paket Standar (Rp15.000)</option>
+                                <option value="3">Paket Spesial (Rp20.000)</option>
+                                <option value="4">Paket Premium (Rp25.000)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="order-qty">Jumlah</label>
+                            <input type="number" id="order-qty" name="quantity" min="1" value="1" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-date">Tanggal Acara</label>
+                            <input type="date" id="event-date" name="event_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="delivery-address">Alamat Pengiriman</label>
+                        <input type="text" id="delivery-address" name="delivery_address" placeholder="Alamat lengkap">
+                    </div>
+                    <div class="form-group">
+                        <label for="order-notes">Catatan Tambahan</label>
+                        <textarea id="order-notes" name="notes" rows="2" placeholder="Mis: Tidak pedas, tambah kerupuk, dll."></textarea>
+                    </div>
+                    <div class="order-total" id="order-total" style="display:none;">
+                        <span>Estimasi Total:</span>
+                        <strong id="total-display">Rp0</strong>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full btn-large btn-glow" id="submit-order-btn">
+                        <span class="btn-text">Kirim Pesanan</span>
+                        <span class="btn-loading" style="display:none;">
+                            <span class="spinner-small"></span> Mengirim...
+                        </span>
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -723,112 +799,7 @@
             </div>
         </section>
 
-        <!-- ===== ORDER FORM SECTION ===== -->
-        <section class="order-section" id="order">
-            <div class="container">
-                <div class="order-wrapper reveal">
-                    <div class="order-info">
-                        <span class="section-tag">Pesan Mudah</span>
-                        <h2>Pesan Sekarang</h2>
-                        <p>Isi form di samping untuk memesan. Kami akan menghubungi Anda untuk konfirmasi.</p>
-                        <div class="order-features">
-                            <div class="order-feature">
-                                <div class="feature-icon">⚡</div>
-                                <div>
-                                    <strong>Respon Cepat</strong>
-                                    <span>Konfirmasi dalam 30 menit</span>
-                                </div>
-                            </div>
-                            <div class="order-feature">
-                                <div class="feature-icon">🚚</div>
-                                <div>
-                                    <strong>Gratis Ongkir</strong>
-                                    <span>Min. 50 box dalam kota</span>
-                                </div>
-                            </div>
-                            <div class="order-feature">
-                                <div class="feature-icon">🎨</div>
-                                <div>
-                                    <strong>Custom Request</strong>
-                                    <span>Menu bisa disesuaikan</span>
-                                </div>
-                            </div>
-                            <div class="order-feature">
-                                <div class="feature-icon">💯</div>
-                                <div>
-                                    <strong>Garansi Rasa</strong>
-                                    <span>Tidak enak? Uang kembali</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <form id="order-form" class="order-form">
-                        <div class="form-group">
-                            <label for="customer-name">Nama Lengkap *</label>
-                            <input type="text" id="customer-name" name="customer_name" placeholder="Masukkan nama Anda" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="customer-phone">No. WhatsApp *</label>
-                                <input type="tel" id="customer-phone" name="customer_phone" placeholder="08xxxxxxxxxx" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="customer-email">Email</label>
-                                <input type="email" id="customer-email" name="customer_email" placeholder="email@contoh.com">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="order-type">Jenis Pesanan</label>
-                                <select id="order-type" name="order_type">
-                                    <option value="nasi_box">Nasi Box</option>
-                                    <option value="angkringan">Menu Angkringan</option>
-                                    <option value="langganan">Langganan Harian</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="order-package">Pilih Paket</label>
-                                <select id="order-package" name="package_id">
-                                    <option value="">— Pilih Paket —</option>
-                                    <option value="1">Paket Hemat (Rp10.000)</option>
-                                    <option value="2">Paket Standar (Rp15.000)</option>
-                                    <option value="3">Paket Spesial (Rp20.000)</option>
-                                    <option value="4">Paket Premium (Rp25.000)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="order-qty">Jumlah</label>
-                                <input type="number" id="order-qty" name="quantity" min="1" value="1" placeholder="1">
-                            </div>
-                            <div class="form-group">
-                                <label for="event-date">Tanggal Acara</label>
-                                <input type="date" id="event-date" name="event_date">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="delivery-address">Alamat Pengiriman</label>
-                            <input type="text" id="delivery-address" name="delivery_address" placeholder="Alamat lengkap">
-                        </div>
-                        <div class="form-group">
-                            <label for="order-notes">Catatan Tambahan</label>
-                            <textarea id="order-notes" name="notes" rows="3" placeholder="Mis: Tidak pedas, tambah kerupuk, dll."></textarea>
-                        </div>
-                        <div class="order-total" id="order-total" style="display:none;">
-                            <span>Estimasi Total:</span>
-                            <strong id="total-display">Rp0</strong>
-                        </div>
-                        <button type="submit" class="btn-primary btn-full btn-large btn-glow" id="submit-order-btn">
-                            <span class="btn-text">Kirim Pesanan</span>
-                            <span class="btn-loading" style="display:none;">
-                                <span class="spinner-small"></span> Mengirim...
-                            </span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
+
 
         <!-- ===== LOKASI & JAM OPERASIONAL ===== -->
         <section class="location-section" id="lokasi">
@@ -915,7 +886,7 @@
                         <span class="promo-feature">✅ Gratis Ongkir</span>
                     </div>
                     <div class="promo-actions">
-                        <a href="#order" class="btn-primary btn-large btn-glow promo-btn">
+                        <a href="javascript:void(0)" class="btn-primary btn-large btn-glow promo-btn open-order-btn">
                             <span>Klaim Diskon Sekarang</span>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
@@ -974,12 +945,12 @@
                     <h4>Menu</h4>
                     <a href="#nasi-box">Nasi Box</a>
                     <a href="#angkringan">Menu Angkringan</a>
-                    <a href="#order">Langganan Harian</a>
-                    <a href="#order">Catering Acara</a>
+                    <a href="javascript:void(0)" class="open-order-btn">Langganan Harian</a>
+                    <a href="javascript:void(0)" class="open-order-btn">Catering Acara</a>
                 </div>
                 <div class="footer-links">
                     <h4>Layanan</h4>
-                    <a href="#order">Pesan Online</a>
+                    <a href="javascript:void(0)" class="open-order-btn">Pesan Online</a>
                     <a href="#">Custom Menu</a>
                     <a href="#">Paket Pernikahan</a>
                     <a href="#">Paket Kantor</a>
@@ -1023,7 +994,7 @@
                 <li data-action="scroll" data-target="#nasi-box"><span>🍚 Paket Nasi Box</span> <small>Menu</small></li>
                 <li data-action="scroll" data-target="#angkringan"><span>🍙 Menu Angkringan</span> <small>Menu</small></li>
                 <li data-action="scroll" data-target="#gallery"><span>🖼️ Galeri Makanan</span> <small>Galeri</small></li>
-                <li data-action="scroll" data-target="#order"><span>📝 Form Pemesanan</span> <small>Pesan</small></li>
+                <li data-action="order"><span>📝 Form Pemesanan</span> <small>Pesan</small></li>
                 <li data-action="scroll" data-target="#testimonials"><span>⭐ Testimoni Pelanggan</span> <small>Review</small></li>
                 <li data-action="scroll" data-target="#faq"><span>❓ FAQ</span> <small>Info</small></li>
                 <li data-action="scroll" data-target="#lokasi"><span>🗺️ Lokasi & Jam Buka</span> <small>Info</small></li>

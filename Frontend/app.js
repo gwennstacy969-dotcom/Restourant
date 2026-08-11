@@ -273,7 +273,9 @@ carouselTrack.addEventListener('touchend', (e) => {
     startAutoPlay();
 }, { passive: true });
 
-// ===== ORDER FORM =====
+// ===== ORDER FORM & POPUP MODAL =====
+const orderModal = document.getElementById('order-modal');
+const orderModalClose = document.getElementById('order-modal-close');
 const orderForm = document.getElementById('order-form');
 const packageSelect = document.getElementById('order-package');
 const qtyInput = document.getElementById('order-qty');
@@ -281,6 +283,34 @@ const orderTotal = document.getElementById('order-total');
 const totalDisplay = document.getElementById('total-display');
 
 const packagePrices = { 1: 10000, 2: 15000, 3: 20000, 4: 25000 };
+
+function openOrderModal(packageId = null) {
+    if (packageId) {
+        packageSelect.value = packageId;
+    }
+    updateTotal();
+    if (orderModal) {
+        orderModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeOrderModal() {
+    if (orderModal) {
+        orderModal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+}
+
+if (orderModalClose) {
+    orderModalClose.addEventListener('click', closeOrderModal);
+}
+
+if (orderModal) {
+    orderModal.addEventListener('click', (e) => {
+        if (e.target === orderModal) closeOrderModal();
+    });
+}
 
 function updateTotal() {
     const pkgId = packageSelect.value;
@@ -302,9 +332,19 @@ qtyInput.addEventListener('input', updateTotal);
 document.querySelectorAll('.order-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const pkgId = btn.dataset.package;
-        packageSelect.value = pkgId;
-        updateTotal();
-        document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+        openOrderModal(pkgId);
+    });
+});
+
+// Handle all open-order-btn clicks (Navbar, Promo, Menu Modal, etc)
+document.querySelectorAll('.open-order-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const menuModal = document.getElementById('menu-item-modal');
+        if (menuModal && !menuModal.classList.contains('hidden')) {
+            menuModal.classList.add('hidden');
+        }
+        openOrderModal();
     });
 });
 
@@ -349,6 +389,7 @@ orderForm.addEventListener('submit', async (e) => {
             showToast('success', `Pesanan berhasil dibuat! ID: #${result.data.id}. Kami akan menghubungi Anda segera.`);
             orderForm.reset();
             orderTotal.style.display = 'none';
+            closeOrderModal();
         } else {
             showToast('error', result.message || 'Gagal membuat pesanan');
         }
@@ -357,6 +398,7 @@ orderForm.addEventListener('submit', async (e) => {
         const waMessage = `Halo Catering 2W, saya mau pesan:\n\nNama: ${formData.customer_name}\nHP: ${formData.customer_phone}\nPaket: ${document.getElementById('order-package').selectedOptions[0]?.text || '-'}\nJumlah: ${formData.quantity}\nTanggal: ${formData.event_date || '-'}\nAlamat: ${formData.delivery_address || '-'}\nCatatan: ${formData.notes || '-'}`;
         
         showToast('info', 'Server belum aktif. Mengarahkan ke WhatsApp...');
+        closeOrderModal();
         
         setTimeout(() => {
             window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(waMessage)}`, '_blank');
@@ -403,7 +445,7 @@ let selectedIndex = -1;
 const searchData = [
     { text: '🍚 Paket Nasi Box', category: 'Menu', action: 'scroll', target: '#nasi-box' },
     { text: '🍙 Menu Angkringan', category: 'Menu', action: 'scroll', target: '#angkringan' },
-    { text: '📝 Form Pemesanan', category: 'Pesan', action: 'scroll', target: '#order' },
+    { text: '📝 Form Pemesanan', category: 'Pesan', action: 'order' },
     { text: '⭐ Testimoni Pelanggan', category: 'Review', action: 'scroll', target: '#testimonials' },
     { text: '🌗 Toggle Dark Mode', category: 'Pengaturan', action: 'theme' },
     { text: '💰 Paket Hemat — Rp10.000', category: 'Nasi Box', action: 'scroll', target: '#nasi-box' },
@@ -449,6 +491,8 @@ function executeSearchAction(item) {
     
     if (item.action === 'scroll') {
         document.querySelector(item.target)?.scrollIntoView({ behavior: 'smooth' });
+    } else if (item.action === 'order') {
+        openOrderModal();
     } else if (item.action === 'theme') {
         themeToggleBtn.click();
     } else if (item.action === 'link') {
